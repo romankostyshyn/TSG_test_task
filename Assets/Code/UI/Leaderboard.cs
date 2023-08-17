@@ -9,15 +9,16 @@ public class Leaderboard : MonoBehaviour, ILeaderboardDataProvider
 {
     [SerializeField] private LeaderboardItem leaderboardItemPrefab;
     [SerializeField] private ScrollComponent scroll;
-    private IListModel<LeaderboardEntryModel> leaderboardModel = new LeaderboardModel();
+    private IListModel<LeaderboardEntryModel> leaderboardModel;
 
-    private void Awake()
+    private void Start()
     {
         Init();
     }
 
     private void Init()
     {
+        leaderboardModel = new LeaderboardModel();
         leaderboardItemPrefab.Init(this);
         scroll.InitWith(leaderboardItemPrefab, leaderboardModel.NumItems);
     }

@@ -167,7 +167,7 @@ MonoBehaviour:
     SpawnDelay: 2
     SpawnPosition: {x: -5, y: 5, z: 0}
   playerPrefab: {fileID: 5331286619832824820, guid: 4cc1da050a3da8146888027bb658f3bb, type: 3}
-  bulletPrefab: {fileID: 274776011232356594, guid: 7285952f907a4994b8dd530d4610334e, type: 3}
+  bulletPrefab: {fileID: 274776011232356599, guid: 7285952f907a4994b8dd530d4610334e, type: 3}
   playerSpawnPoint: {fileID: 2084569447}
   enemySpawnPoint: {fileID: 2048468736}
 --- !u!4 &15322660

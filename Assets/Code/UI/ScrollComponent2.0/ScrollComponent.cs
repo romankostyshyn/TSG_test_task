@@ -23,7 +23,7 @@ namespace Tools.ScrollComponent
 
 #pragma warning restore
 
-        private float ItemSize => (Width - distance.x * (countInCluster - 1)) / countInCluster; //need to set to every item
+        private Vector2 ItemSize = new Vector2(550, 50); //need to set to every item
 
         private float VirtualPosition
         {
@@ -84,7 +84,7 @@ namespace Tools.ScrollComponent
         private void RecalculateMaxVirtualPosition(int itemsCount)
         {
             int maxCountClasters = itemsCount / countInCluster + 1;
-            MaxVirtualPosition = maxCountClasters * ItemSize - Height + (maxCountClasters - 1) * distance.y;
+            MaxVirtualPosition = maxCountClasters * ItemSize.y - Height + (maxCountClasters - 1) * distance.y;
             MaxVirtualPosition = Mathf.Max(0, MaxVirtualPosition);
         }
 
@@ -92,7 +92,7 @@ namespace Tools.ScrollComponent
         {
             dragComponent.OnTryGrab += (data, pos) =>
             {
-                int startIndex = (int)virtualPosition / (int)(ItemSize + distance.y) * countInCluster;
+                int startIndex = (int)virtualPosition / (int)(ItemSize.y + distance.y) * countInCluster;
                 int index = GetIndexFromPos(pos);
                 items[index].OnGrab(startIndex + index);
             };
@@ -101,9 +101,9 @@ namespace Tools.ScrollComponent
         private int GetIndexFromPos(Vector2 pos)
         {
             int index = 0;
-            float firstPos = (int)virtualPosition % (int)(ItemSize + distance.y);
-            int x = (int)pos.x / (int)ItemSize;
-            int y = (int)(Screen.height - pos.y - dragComponent.OffsetGlobalTop + firstPos) / (int)(ItemSize + distance.y);
+            float firstPos = (int)virtualPosition % (int)(ItemSize.y + distance.y);
+            int x = (int)pos.x / (int)ItemSize.x;
+            int y = (int)(Screen.height - pos.y - dragComponent.OffsetGlobalTop + firstPos) / (int)(ItemSize.y + distance.y);
             index = x + y * countInCluster;
             return index;
         }
@@ -116,7 +116,7 @@ namespace Tools.ScrollComponent
         private void GenerageScrollItemsFromPrefab(ScrollItem prefab)
         {
             //minimal integer +1 to cover all visible and +1 to make virtualizing
-            int countOfClusters = Mathf.FloorToInt(Height / (ItemSize + distance.y)) + 2;
+            int countOfClusters = Mathf.FloorToInt(Height / (ItemSize.y + distance.y)) + 2;
 
             //destroy if have old data
             ClearItems();
@@ -128,7 +128,7 @@ namespace Tools.ScrollComponent
                 {
                     //make item
                     ScrollItem item = Instantiate(prefab, parentTransformForList);
-                    item.Size = new Vector2(ItemSize, ItemSize);
+                    item.Size = new Vector2(ItemSize.x, ItemSize.y);
                     items.Add(item);
                 }
             }
@@ -150,15 +150,15 @@ namespace Tools.ScrollComponent
         private void Refresh()
         {
             //get current virtual position
-            int startIndex = (int)virtualPosition / (int)(ItemSize + distance.y) * countInCluster;
-            float firstPos = (int)virtualPosition % (int)(ItemSize + distance.y);
+            int startIndex = (int)virtualPosition / (int)(ItemSize.y + distance.y) * countInCluster;
+            float firstPos = (int)virtualPosition % (int)(ItemSize.y + distance.y);
 
             int clusterCounter = 0;
             int counter = 0;
             for (int i = 0; i < items.Count; i++)
             {
                 ScrollItem scrollItem = items[i];
-                scrollItem.Position = new Vector2(counter * (ItemSize + distance.x), -clusterCounter * (ItemSize + distance.y) + firstPos);
+                scrollItem.Position = new Vector2(counter * (ItemSize.x + distance.x), -clusterCounter * (ItemSize.y + distance.y) + firstPos);
                 scrollItem.Refresh(i + startIndex);
                 counter++;
                 if (counter >= countInCluster)

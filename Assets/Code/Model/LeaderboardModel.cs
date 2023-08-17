@@ -21,8 +21,11 @@ namespace TSG.Model
 				entries.Add(p);
 			}
 		}
-
-		public LeaderboardEntryModel GetItem(int index) => entries[index];
+		
+		public LeaderboardEntryModel GetItem(int index)
+		{
+			return entries.Count > index ? entries[index] : null;
+		}
 
 		public void AddItem(LeaderboardEntryModel model)
 		{

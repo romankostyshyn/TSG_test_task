@@ -10,22 +10,25 @@ public class LeaderboardItem : ScrollItem
     [SerializeField] private TMP_Text indexText;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private Leaderboard dataProvider;
 
     private string Index { set => indexText.text = value; }
     private string Name { set => nameText.text = value; }
     private string Score { set => scoreText.text = value; }
     
-    private ILeaderboardDataProvider dataProvider; 
-    public void Init(ILeaderboardDataProvider dataProvider)
+    public void Init(Leaderboard dataProvider)
     {
         this.dataProvider = dataProvider;
     }
     public override void Refresh(int index)
     {
         var data = dataProvider.GetDataByID(index);
-        Index = index.ToString();
-        Name = data.Name;
-        Score = data.Score.ToString();
+        if (data != null)
+        {
+            Index = index.ToString();
+            Name = data.Name;
+            Score = data.Score.ToString();
+        }
     }
 
     public override void OnClick(int index)
