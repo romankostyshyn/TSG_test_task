@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
         transform.position = pos;
         if (transform.position.z < endPoint)
         {
-            gameObject.DestroyWithPool(this);
+            Pool.Destroy(this);
         }
     }
 

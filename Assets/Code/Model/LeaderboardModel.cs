@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using UnityEngine;
 
 namespace TSG.Model
@@ -6,6 +7,7 @@ namespace TSG.Model
 	public class LeaderboardModel : IListModel<LeaderboardEntryModel>
 	{
 		public int NumItems => entries.Count;
+		public IEnumerable<LeaderboardEntryModel> Entries => entries;
 
 		public LeaderboardModel()
 		{

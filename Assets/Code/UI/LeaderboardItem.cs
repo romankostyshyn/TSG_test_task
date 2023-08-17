@@ -1,0 +1,45 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using Tools.ScrollComponent;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class LeaderboardItem : ScrollItem
+{
+    [SerializeField] private TMP_Text indexText;
+    [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text scoreText;
+
+    private string Index { set => indexText.text = value; }
+    private string Name { set => nameText.text = value; }
+    private string Score { set => scoreText.text = value; }
+    
+    private ILeaderboardDataProvider dataProvider; 
+    public void Init(ILeaderboardDataProvider dataProvider)
+    {
+        this.dataProvider = dataProvider;
+    }
+    public override void Refresh(int index)
+    {
+        var data = dataProvider.GetDataByID(index);
+        Index = index.ToString();
+        Name = data.Name;
+        Score = data.Score.ToString();
+    }
+
+    public override void OnClick(int index)
+    {
+        
+    }
+
+    public override void OnDrag(int index)
+    {
+        
+    }
+
+    public override void OnGrab(int index)
+    {
+        
+    }
+}

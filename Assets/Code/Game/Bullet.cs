@@ -1,3 +1,5 @@
+using System;
+using Tools;
 using UnityEngine;
 
 namespace TSG.Game
@@ -6,6 +8,7 @@ namespace TSG.Game
 	{
 		private float damage;
 		private Rigidbody cachedRigidbody;
+		public float endPoint;
 
 		private void Awake()
 		{
@@ -18,10 +21,18 @@ namespace TSG.Game
 			this.damage = damage;
 		}
 
+		private void Update()
+		{
+			if (transform.position.z > endPoint)
+			{
+				gameObject.DestroyWithPool(this);
+			}
+		}
+
 		public void GiveDamage(Enemy enemy)
 		{
 			enemy.TakeDamage(damage);
-			Destroy(gameObject);
+			Pool.Destroy(this);
 		}
 	}
 }

@@ -13,7 +13,7 @@ namespace TSG.Game
         [SerializeField] private PlayerConfig playerConfig;
         [SerializeField] private SpawnerConfig spawnerConfig;
         [SerializeField] private GameObject playerPrefab;
-        [SerializeField] private GameObject bulletPrefab;
+        [SerializeField] private Bullet bulletPrefab;
         [SerializeField] private Transform playerSpawnPoint;
         [SerializeField] private Transform enemySpawnPoint;
 

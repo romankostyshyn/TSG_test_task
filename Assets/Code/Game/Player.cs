@@ -1,4 +1,5 @@
 using System;
+using Tools;
 using TSG.Model;
 using UnityEngine;
 
@@ -9,12 +10,12 @@ namespace TSG.Game
 		public event Action<Player> onDie = delegate { };
 
 		private PlayerModel model;
-		private GameObject bulletPrefab;
+		private Bullet bulletPrefab;
 		private float lastTimeShot;
 
 		public PlayerModel Model => model;
 
-		public void Setup(PlayerModel model, GameObject bulletPrefab)
+		public void Setup(PlayerModel model, Bullet bulletPrefab)
 		{
 			this.model = model;
 			this.bulletPrefab = bulletPrefab;
@@ -66,7 +67,7 @@ namespace TSG.Game
 		{
 			if (lastTimeShot + model.BulletCooldown <= Time.timeSinceLevelLoad)
 			{
-				var bulletGo = Instantiate(bulletPrefab, transform.position, Quaternion.identity, null);
+				var bulletGo = Pool.Instantiate(bulletPrefab, transform.position, Quaternion.identity, null);
 				var bullet = bulletGo.GetComponent<Bullet>();
 				bullet.Setup(model.BulletSpeed, model.BulletDamage);
 				lastTimeShot = Time.timeSinceLevelLoad;
