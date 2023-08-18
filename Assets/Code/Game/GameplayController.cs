@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Tools;
 using TSG.Model;
 using TSG.Popups;
@@ -16,9 +17,12 @@ namespace TSG.Game
         [SerializeField] private Bullet bulletPrefab;
         [SerializeField] private Transform playerSpawnPoint;
         [SerializeField] private Transform enemySpawnPoint;
+        [SerializeField] private GameObject enemySpawner;
 
         private Player player;
+        private Enemy enemy;
         private float lastTimeSpawnedEnemy;
+        private bool state = true;
 
         private void Start()
         {
@@ -33,6 +37,8 @@ namespace TSG.Game
         {
             if (player.Model.IsDead())
             {
+                //state = false;
+                //EnemyVisible(state);
                 return;
             }
 
@@ -41,6 +47,11 @@ namespace TSG.Game
                 lastTimeSpawnedEnemy = Time.timeSinceLevelLoad;
                 SpawnEnemy();
             }
+        }
+
+        private void EnemyVisible(bool active)
+        {
+            enemySpawner.SetActive(active);
         }
 
         private void SpawnPlayer()
@@ -54,13 +65,18 @@ namespace TSG.Game
         
         private void SpawnEnemy()
         {
+            // if (state == false)
+            // {
+            //     state = true;
+            //     EnemyVisible(state);
+            // }
             var g = Pool.Instantiate(spawnerConfig.Prefab, enemySpawnPoint.transform.position,
-                Quaternion.identity);
+                Quaternion.identity, enemySpawner.transform);
             g.transform.position = enemySpawnPoint.transform.position +
                                    new Vector3(
                                        Random.Range(spawnerConfig.SpawnPosition.x, spawnerConfig.SpawnPosition.y),
                                        0, 0);
-            var enemy = g.GetComponent<Enemy>();
+            enemy = g.GetComponent<Enemy>();
             enemy.Setup(new EnemyModel(enemyConfig));
             enemy.onImpact += HandleEnemyImpact;
             enemy.onDie += HandleEnemyDeath;
@@ -68,7 +84,9 @@ namespace TSG.Game
 
         private void HandleEnemyDeath(Enemy obj)
         {
+            Debug.Log("dead");
             Pool.Destroy(obj);
+            obj.onImpact -= HandleEnemyImpact;
         }
 
         private void HandleEnemyImpact(Enemy enemy, GameObject other)
@@ -76,6 +94,8 @@ namespace TSG.Game
             if (other.gameObject.TryGetComponent<Player>(out var playerComponent))
             {
                 playerComponent.TakeDamage(enemy.Model.Damage);
+                enemy.onImpact -= HandleEnemyImpact;
+                enemy.onDie -= HandleEnemyDeath;
             }
             else if (other.gameObject.TryGetComponent<Bullet>(out var bullet))
             {
@@ -84,8 +104,12 @@ namespace TSG.Game
                 if (enemy.Model.IsDead())
                 {
                     player.Model.KillEnemy();
+                    enemy.onImpact -= HandleEnemyImpact;
+                    enemy.onDie -= HandleEnemyDeath;
                 }
             }
+                
+            Debug.Log(enemy.Model.IsDead());
         }
 
         private void HandlePlayerDeath(Player playerModel)

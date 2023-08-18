@@ -29,10 +29,21 @@ namespace TSG.Game
             UpdateUI();
         }
 
+        private void Unsubscribe(PlayerModel model)
+        {
+            model.damageTaken -= OnModelTakenDamage;
+            model.killedEnemy -= OnModelKilledEnemy;
+        }
+
         private void UpdateUI()
         {
             playerHealth.text = model.HitPoints.ToString();
             score.text = model.Score.ToString();
+
+            if (model.HitPoints == 0)
+            {
+                Unsubscribe(model);
+            }
         }
     }
 }

@@ -14,10 +14,10 @@ namespace TSG.Popups
 			base.Init();
 			playButton.onClick.AddListener(OnPlayButtonClicked);
 		}
-		
+
 		private void OnPlayButtonClicked()
 		{
-			SceneManager.LoadScene(1);
+			model.Revive();
 			Close();
 		}
 		

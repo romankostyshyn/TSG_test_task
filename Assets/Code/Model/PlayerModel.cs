@@ -8,6 +8,7 @@ namespace TSG.Model
 	{
 		public event Action<PlayerModel> die = delegate { };
 		public event Action<PlayerModel> killedEnemy = delegate { };
+		public event Action<PlayerModel> revive = delegate { };
 		public event Action<PlayerModel, float> damageTaken = delegate { };
 		
 		public float Speed { get; }
@@ -16,6 +17,8 @@ namespace TSG.Model
 		public float BulletCooldown { get; }
 		public int Score { get; private set; }
 		public int HitPoints { get; private set; }
+
+		private readonly int hitPoints;
 		
 		public PlayerModel(PlayerConfig config)
 		{
@@ -24,11 +27,19 @@ namespace TSG.Model
 			BulletDamage = config.BulletDamage;
 			BulletCooldown = config.BulletCooldown;
 			BulletSpeed = config.BulletSpeed;
+
+			hitPoints = config.Hitpoints;
 		}
 		
 		public bool IsDead()
 		{
 			return HitPoints == 0;
+		}
+
+		public void Revive()
+		{
+			HitPoints = hitPoints;
+			revive(this);
 		}
 
 		public void TakeDamage(float damage)

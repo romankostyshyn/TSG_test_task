@@ -1,6 +1,7 @@
 using System;
 using Tools;
 using TSG.Model;
+using TSG.Popups;
 using UnityEngine;
 
 namespace TSG.Game
@@ -20,6 +21,7 @@ namespace TSG.Game
 			this.model = model;
 			this.bulletPrefab = bulletPrefab;
 			model.die += OnModelDie;
+			model.revive += Revive;
 		}
 
 		private void OnModelDie(PlayerModel obj)
@@ -30,6 +32,12 @@ namespace TSG.Game
 		public void TakeDamage(float damage)
 		{
 			model.TakeDamage(damage);
+		}
+
+		public void Revive(PlayerModel obj)
+		{
+			var topBar = Game.Get<PopupManager>().Get<TopBar>();
+			topBar.Setup(Model);
 		}
 
 		private void Update()

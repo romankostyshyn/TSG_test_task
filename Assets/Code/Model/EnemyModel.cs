@@ -27,12 +27,20 @@ namespace TSG.Model
             return Hp == 0;
         }
 
+        public void OffRange()
+        {
+            Hp = 0;
+            //IsDead();
+            die(this);
+        }
+
         public void TakeDamage(float damage)
         {
             if (IsDead())
             {
                 return;
             }
+            
             Hp = (int) Mathf.Max(0, Hp - damage);
             damageTaken(this, damage);
             if (!IsDead())

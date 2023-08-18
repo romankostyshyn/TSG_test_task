@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour
 
     private void OnModelDie(EnemyModel obj)
     {
+        Debug.Log("here");
         onDie(this);
     }
 
@@ -30,7 +31,9 @@ public class Enemy : MonoBehaviour
         transform.position = pos;
         if (transform.position.z < endPoint)
         {
+            model.OffRange();
             Pool.Destroy(this);
+            //model.die -= OnModelDie;
         }
     }
 
