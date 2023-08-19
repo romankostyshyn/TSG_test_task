@@ -22,7 +22,7 @@ namespace TSG.Game
         private Player player;
         private Enemy enemy;
         private float lastTimeSpawnedEnemy;
-        private bool state = true;
+        private bool state;
 
         private void Start()
         {
@@ -37,6 +37,19 @@ namespace TSG.Game
         {
             if (player.Model.IsDead())
             {
+                if (state)
+                {
+                    foreach (Transform child in enemySpawner.transform)
+                    {
+                        EnemyVisible(child);
+                        //enemy.Model.OffRange();
+                        //Debug.Log(child);
+                    }
+
+                    state = false;
+                }
+                
+                //Pool.Destroy(enemy);
                 //state = false;
                 //EnemyVisible(state);
                 return;
@@ -49,9 +62,12 @@ namespace TSG.Game
             }
         }
 
-        private void EnemyVisible(bool active)
+        private void EnemyVisible(Transform enemy)
         {
-            enemySpawner.SetActive(active);
+            Pool.Destroy(enemy);
+            this.enemy.Model.OffRange();
+            this.enemy.onImpact -= HandleEnemyImpact;
+            this.enemy.onDie -= HandleEnemyDeath;
         }
 
         private void SpawnPlayer()
@@ -78,6 +94,7 @@ namespace TSG.Game
                                        0, 0);
             enemy = g.GetComponent<Enemy>();
             enemy.Setup(new EnemyModel(enemyConfig));
+            enemy.onImpact -= HandleEnemyImpact;
             enemy.onImpact += HandleEnemyImpact;
             enemy.onDie += HandleEnemyDeath;
         }
@@ -87,13 +104,17 @@ namespace TSG.Game
             Debug.Log("dead");
             Pool.Destroy(obj);
             obj.onImpact -= HandleEnemyImpact;
+            obj.onDie -= HandleEnemyDeath;
         }
 
         private void HandleEnemyImpact(Enemy enemy, GameObject other)
         {
+            Debug.Log("spawn");
             if (other.gameObject.TryGetComponent<Player>(out var playerComponent))
             {
+                Debug.Log("connect");
                 playerComponent.TakeDamage(enemy.Model.Damage);
+                enemy.Model.OffRange();
                 enemy.onImpact -= HandleEnemyImpact;
                 enemy.onDie -= HandleEnemyDeath;
             }
@@ -103,6 +124,7 @@ namespace TSG.Game
 
                 if (enemy.Model.IsDead())
                 {
+                    Debug.Log("why?");
                     player.Model.KillEnemy();
                     enemy.onImpact -= HandleEnemyImpact;
                     enemy.onDie -= HandleEnemyDeath;
@@ -114,6 +136,7 @@ namespace TSG.Game
 
         private void HandlePlayerDeath(Player playerModel)
         {
+            state = true;
             var endPopup = Game.Get<PopupManager>().Get<EndPopup>();
             endPopup.Setup(player.Model);
             Game.Get<PopupManager>().Open<EndPopup>().Forget();

@@ -44,6 +44,7 @@ namespace TSG.Model
 
 		public void TakeDamage(float damage)
 		{
+			Debug.Log("Player takes damage");
 			if (IsDead())
 			{
 				return;

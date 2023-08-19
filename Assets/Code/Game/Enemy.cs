@@ -44,6 +44,7 @@ public class Enemy : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Invoke");
         onImpact.Invoke(this, other.gameObject);
     }
 }

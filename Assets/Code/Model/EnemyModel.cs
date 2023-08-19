@@ -36,8 +36,10 @@ namespace TSG.Model
 
         public void TakeDamage(float damage)
         {
+            Debug.Log("skolko raz");
             if (IsDead())
             {
+                Debug.Log($"is Dead {IsDead()}");
                 return;
             }
             
@@ -45,8 +47,10 @@ namespace TSG.Model
             damageTaken(this, damage);
             if (!IsDead())
             {
+                Debug.Log($"is Dead {IsDead()}");
                 return;
             }
+            Debug.Log("trogaet die");
             die(this);
         }
     }
