@@ -20,7 +20,6 @@ public class Enemy : MonoBehaviour
 
     private void OnModelDie(EnemyModel obj)
     {
-        Debug.Log("here");
         onDie(this);
     }
 
@@ -33,7 +32,6 @@ public class Enemy : MonoBehaviour
         {
             model.OffRange();
             Pool.Destroy(this);
-            //model.die -= OnModelDie;
         }
     }
 
@@ -44,7 +42,6 @@ public class Enemy : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Invoke");
         onImpact.Invoke(this, other.gameObject);
     }
 }
