@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Data.SqlTypes;
+using System.Linq;
 using UnityEngine;
 
 namespace TSG.Model
@@ -20,6 +21,7 @@ namespace TSG.Model
 				var p = new LeaderboardEntryModel($"{NameList.Names[r]}{(i * 317) % 100}", Random.Range(0, 1000) * 50);
 				entries.Add(p);
 			}
+			entries = entries.OrderByDescending(e => e.Score).ToList();
 		}
 		
 		public LeaderboardEntryModel GetItem(int index)

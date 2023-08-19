@@ -39,12 +39,12 @@ namespace TSG.Model
 		public void Revive()
 		{
 			HitPoints = hitPoints;
+			Score = 0;
 			revive(this);
 		}
 
 		public void TakeDamage(float damage)
 		{
-			Debug.Log("Player takes damage");
 			if (IsDead())
 			{
 				return;

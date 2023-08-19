@@ -20,6 +20,7 @@ namespace TSG.Game
             DontDestroyOnLoad(gameObject);
 
             RegisterManager(new PopupManager());
+            RegisterManager(new DataManager());
 
             GetComponentsInChildren(true, popups);
             for (int i = 0; i < popups.Count; i++)

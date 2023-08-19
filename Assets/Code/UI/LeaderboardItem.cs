@@ -25,9 +25,16 @@ public class LeaderboardItem : ScrollItem
         var data = dataProvider.GetDataByID(index);
         if (data != null)
         {
+            index++;
             Index = index.ToString();
             Name = data.Name;
             Score = data.Score.ToString();
+        }
+        else
+        {
+            Index = string.Empty;
+            Name = string.Empty;
+            Score = string.Empty;
         }
     }
 

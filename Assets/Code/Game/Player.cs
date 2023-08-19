@@ -26,6 +26,8 @@ namespace TSG.Game
 
 		private void OnModelDie(PlayerModel obj)
 		{
+			var dataManager = Game.Get<DataManager>();
+			dataManager.SaveHighScore(model.Score);
 			onDie(this);
 		}
 
@@ -34,7 +36,7 @@ namespace TSG.Game
 			model.TakeDamage(damage);
 		}
 
-		public void Revive(PlayerModel obj)
+		private void Revive(PlayerModel obj)
 		{
 			var topBar = Game.Get<PopupManager>().Get<TopBar>();
 			topBar.Setup(Model);
