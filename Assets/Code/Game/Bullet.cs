@@ -6,9 +6,10 @@ namespace TSG.Game
 {
 	public class Bullet : MonoBehaviour
 	{
+		[SerializeField] private float endPoint;
+		[SerializeField] private int range;
 		private float damage;
 		private Rigidbody cachedRigidbody;
-		public float endPoint;
 
 		private void Awake()
 		{
@@ -23,6 +24,11 @@ namespace TSG.Game
 
 		private void Update()
 		{
+			if (transform.position.z > range)
+			{
+				damage++;
+			}
+			
 			if (transform.position.z > endPoint)
 			{
 				gameObject.DestroyWithPool(this);

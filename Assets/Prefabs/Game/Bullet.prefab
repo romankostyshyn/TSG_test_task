@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endPoint: 30
+  range: 15
 --- !u!54 &2649827983493866746
 Rigidbody:
   m_ObjectHideFlags: 0

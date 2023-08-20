@@ -1,12 +1,13 @@
 ﻿using TSG.Game;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace Code.UI.PlayerActionButtons
 {
     public class MoveRightButton : MonoBehaviour, IUpdateSelectedHandler, IPointerDownHandler, IPointerUpHandler
     {
-        [SerializeField] private TopBar topBar;
+        [SerializeField] private Overlay overlay;
         private bool isPressed;
 
         public void OnUpdateSelected(BaseEventData data)
@@ -27,9 +28,9 @@ namespace Code.UI.PlayerActionButtons
             isPressed = false;
         }
 
-        public void Interact()
+        private void Interact()
         {
-            topBar.MoveRight();
+            overlay.MoveRight();
         }
     }
 }

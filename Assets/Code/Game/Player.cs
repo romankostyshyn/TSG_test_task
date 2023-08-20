@@ -38,8 +38,8 @@ namespace TSG.Game
 
 		private void Revive(PlayerModel obj)
 		{
-			var topBar = Game.Get<PopupManager>().Get<TopBar>();
-			topBar.Setup(Model);
+			var overlay = Game.Get<PopupManager>().Get<Overlay>();
+			overlay.Setup(Model);
 		}
 
 		private void Update()

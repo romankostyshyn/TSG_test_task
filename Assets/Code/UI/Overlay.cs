@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Cysharp.Threading.Tasks;
+using TMPro;
 using TSG.Model;
 using TSG.Popups;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine.UI;
 
 namespace TSG.Game
 {
-    public class TopBar : PopupStateModel<TopBar, PlayerModel>
+    public class Overlay : PopupStateModel<Overlay, PlayerModel>
     {
         [SerializeField] private TextMeshProUGUI playerHealth;
         [SerializeField] private TextMeshProUGUI score;
@@ -18,6 +19,7 @@ namespace TSG.Game
             base.Setup(model);
             model.damageTaken += OnModelTakenDamage;
             model.killedEnemy += OnModelKilledEnemy;
+            model.revive += OnModelRevived;
 
             UpdateUI();
         }
@@ -37,6 +39,12 @@ namespace TSG.Game
             UpdateUI();
         }
 
+        private void OnModelRevived(PlayerModel obj)
+        {
+            Game.Get<PopupManager>().Open<Overlay>().Forget();
+            obj.revive -= OnModelRevived;
+        }
+
         private void Unsubscribe(PlayerModel model)
         {
             model.damageTaken -= OnModelTakenDamage;
@@ -51,6 +59,7 @@ namespace TSG.Game
             if (model.HitPoints == 0)
             {
                 Unsubscribe(model);
+                Close();
             }
         }
 

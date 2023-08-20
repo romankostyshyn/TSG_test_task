@@ -29,10 +29,10 @@ namespace TSG.Game
         {
             SpawnPlayer();
 
-            var topBar = Game.Get<PopupManager>().Get<TopBar>();
-            topBar.Setup(player.Model);
-            topBar.GetPlayer(player);
-            Game.Get<PopupManager>().Open<TopBar>().Forget();
+            var overlay = Game.Get<PopupManager>().Get<Overlay>();
+            overlay.Setup(player.Model);
+            overlay.GetPlayer(player);
+            Game.Get<PopupManager>().Open<Overlay>().Forget();
         }
 
         private void Update()
