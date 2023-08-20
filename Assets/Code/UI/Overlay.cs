@@ -3,7 +3,6 @@ using TMPro;
 using TSG.Model;
 using TSG.Popups;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace TSG.Game
 {

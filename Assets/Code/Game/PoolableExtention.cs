@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Tools
 {
@@ -134,29 +132,6 @@ namespace Tools
             obj.gameObject.SetActive(false);
         }
 
-        #endregion
-        
-        #region sugar
-
-        public static T FirstOrDefaultFromPool<T>(this Object o, Func<T, bool> predicate) where T : Component
-        {
-            if (predicate != null)
-            {
-                CheckPool<T>();
-                return pools[typeof(T)].FirstOrDefault(delegate(GameObject x)
-                {
-                    if (x.activeSelf && x.GetComponent<T>() != null)
-                    {
-                        return predicate.Invoke(x.GetComponent<T>());
-                    }
-                
-                    return false;
-                })?.GetComponent<T>();
-            }
-
-            throw new Exception("Predicate is null");
-        }
-        
         #endregion
     }
 }

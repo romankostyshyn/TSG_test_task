@@ -1,6 +1,4 @@
-﻿//developer -> gratomov@gmail.com
-
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Tools
 {

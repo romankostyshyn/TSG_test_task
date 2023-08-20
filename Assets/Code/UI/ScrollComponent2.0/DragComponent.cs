@@ -9,7 +9,7 @@ namespace Tools.ScrollComponent
         public event Action<PointerEventData, float> OnDragEvent;
         public event Action<PointerEventData, Vector2> OnBeginDragEvent;
         public event Action<PointerEventData, float> OnEndDragEvent;
-        public event Action<PointerEventData, Vector2> OnTryGrab; // попытка взять элемент
+        public event Action<PointerEventData, Vector2> OnTryGrab; // try take element
 
         private AverageVector2 averageImpulse = new AverageVector2();
         private Vector2 startPoint;

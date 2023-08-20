@@ -1,7 +1,6 @@
 ﻿using TMPro;
 using TSG.Model;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace TSG.Popups

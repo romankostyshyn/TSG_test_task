@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using Tools.ScrollComponent;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class LeaderboardItem : ScrollItem
 {
