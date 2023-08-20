@@ -4,6 +4,7 @@ using Tools;
 using TSG.Model;
 using TSG.Popups;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace TSG.Game
@@ -30,6 +31,7 @@ namespace TSG.Game
 
             var topBar = Game.Get<PopupManager>().Get<TopBar>();
             topBar.Setup(player.Model);
+            topBar.GetPlayer(player);
             Game.Get<PopupManager>().Open<TopBar>().Forget();
         }
 
@@ -42,16 +44,11 @@ namespace TSG.Game
                     foreach (Transform child in enemySpawner.transform)
                     {
                         EnemyVisible(child);
-                        //enemy.Model.OffRange();
-                        //Debug.Log(child);
                     }
 
                     state = false;
                 }
 
-                //Pool.Destroy(enemy);
-                //state = false;
-                //EnemyVisible(state);
                 return;
             }
 
@@ -66,8 +63,6 @@ namespace TSG.Game
         {
             Pool.Destroy(enemy);
             this.enemy.Model.OffRange();
-            //this.enemy.onImpact -= HandleEnemyImpact;
-            //this.enemy.onDie -= HandleEnemyDeath;
         }
 
         private void SpawnPlayer()
@@ -98,8 +93,6 @@ namespace TSG.Game
         private void HandleEnemyDeath(Enemy obj)
         {
             Pool.Destroy(obj);
-            //obj.onImpact -= HandleEnemyImpact;
-            //obj.onDie -= HandleEnemyDeath;
         }
 
         private void HandleEnemyImpact(Enemy enemy, GameObject other)
@@ -108,8 +101,6 @@ namespace TSG.Game
             {
                 playerComponent.TakeDamage(enemy.Model.Damage);
                 enemy.Model.OffRange();
-                //enemy.onImpact -= HandleEnemyImpact;
-                //enemy.onDie -= HandleEnemyDeath;
             }
             else if (other.gameObject.TryGetComponent<Bullet>(out var bullet))
             {
@@ -118,8 +109,6 @@ namespace TSG.Game
                 if (enemy.Model.IsDead())
                 {
                     player.Model.KillEnemy();
-                    //enemy.onImpact -= HandleEnemyImpact;
-                    //enemy.onDie -= HandleEnemyDeath;
                 }
             }
         }

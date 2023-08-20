@@ -2,6 +2,7 @@
 using TSG.Model;
 using TSG.Popups;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TSG.Game
 {
@@ -10,6 +11,8 @@ namespace TSG.Game
         [SerializeField] private TextMeshProUGUI playerHealth;
         [SerializeField] private TextMeshProUGUI score;
 
+        private Player player;
+
         public override void Setup(PlayerModel model)
         {
             base.Setup(model);
@@ -17,6 +20,11 @@ namespace TSG.Game
             model.killedEnemy += OnModelKilledEnemy;
 
             UpdateUI();
+        }
+
+        public void GetPlayer(Player player)
+        {
+            this.player = player;
         }
 
         private void OnModelKilledEnemy(PlayerModel obj)
@@ -44,6 +52,21 @@ namespace TSG.Game
             {
                 Unsubscribe(model);
             }
+        }
+
+        public void MoveLeft()
+        {
+            player.MoveLeft();
+        }
+        
+        public void MoveRight()
+        {
+            player.MoveRight();
+        }
+
+        public void Shoot()
+        {
+            player.Shoot();
         }
     }
 }

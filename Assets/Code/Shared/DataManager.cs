@@ -10,7 +10,6 @@ public class DataManager : IManager
     public DataManager()
     {
         HighScore = PlayerPrefs.GetInt("HighScore");
-        Debug.Log(HighScore);
     }
 
     public void SaveHighScore(int score)
@@ -18,10 +17,8 @@ public class DataManager : IManager
         if (score > HighScore)
         {
             HighScore = score;
+            PlayerPrefs.SetInt("HighScore", HighScore);
+            PlayerPrefs.Save();
         }
-        
-        Debug.Log(HighScore);
-        PlayerPrefs.SetInt("HighScore", HighScore);
-        PlayerPrefs.Save();
     }
 }

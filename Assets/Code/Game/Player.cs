@@ -59,21 +59,21 @@ namespace TSG.Game
 			}
 		}
 
-		private void MoveLeft()
+		public void MoveLeft()
 		{
 			var pos = transform.position;
 			pos.x -= model.Speed * Time.deltaTime;
 			transform.position = pos;
 		}
 
-		private void MoveRight()
+		public void MoveRight()
 		{
 			var pos = transform.position;
 			pos.x += model.Speed * Time.deltaTime;
 			transform.position = pos;
 		}
 
-		private void Shoot()
+		public void Shoot()
 		{
 			if (lastTimeShot + model.BulletCooldown <= Time.timeSinceLevelLoad)
 			{
